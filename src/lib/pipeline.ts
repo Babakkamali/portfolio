@@ -1,4 +1,4 @@
-import type { LogStatus } from '../content/site';
+import type { LogStatus } from '../content/site.ts';
 
 /** v0 and v1 alternate between releases so a rollout shows as a colour change across the pods. */
 export type PodState = 'v0' | 'v1' | 'updating' | 'old';

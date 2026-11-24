@@ -1,4 +1,4 @@
-import { reducedMotion } from './motion';
+import { reducedMotion } from './motion.ts';
 
 /** A made-up traffic meter in the status bar that rises while the visitor scrolls. */
 export function startNetMeter(): void {

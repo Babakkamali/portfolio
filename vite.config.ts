@@ -1,6 +1,6 @@
 import { defineConfig, type Plugin } from 'vite';
-import { site } from './src/content/site';
-import { renderPage } from './src/render/page';
+import { site } from './src/content/site.ts';
+import { renderPage } from './src/render/page.ts';
 
 /** Renders the page into index.html at build time, so it works without JavaScript. */
 function renderPagePlugin(): Plugin {

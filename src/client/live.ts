@@ -1,7 +1,7 @@
-import type { LogLine } from '../content/site';
-import { POD_COUNT, pipelineRun, podColour, type PodState } from '../lib/pipeline';
-import { logLine } from '../render/deployLog';
-import { reducedMotion, sleep } from './motion';
+import type { LogLine } from '../content/site.ts';
+import { POD_COUNT, pipelineRun, podColour, type PodState } from '../lib/pipeline.ts';
+import { logLine } from '../render/deployLog.ts';
+import { reducedMotion, sleep } from './motion.ts';
 
 const VISIBLE_LINES = 5;
 const FIRST_VERSION = 42;

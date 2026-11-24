@@ -1,5 +1,5 @@
-import type { LogLine } from '../content/site';
-import { esc } from './html';
+import type { LogLine } from '../content/site.ts';
+import { esc } from './html.ts';
 
 export function logLine(line: LogLine): string {
   const mark = line.status === 'ok' ? '<span class="c-green">✓</span>' : '<span class="c-yellow">●</span>';

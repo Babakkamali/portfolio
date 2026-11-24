@@ -1,4 +1,4 @@
-import type { YearMonth } from '../lib/years';
+import type { YearMonth } from '../lib/years.ts';
 
 export interface Workspace {
   id: string;
@@ -39,6 +39,12 @@ export interface Link {
   href: string;
 }
 
+export interface Education {
+  degree: string;
+  school: string;
+  year: string;
+}
+
 export interface Site {
   name: string;
   role: string;
@@ -57,6 +63,7 @@ export interface Site {
   /** Newest first. Shown as a git log. */
   work: string[];
   experience: Job[];
+  education: Education;
   links: Link[];
 }
 
@@ -150,6 +157,11 @@ export const site: Site = {
     { period: '2020 – 2023', role: 'System administrator / DevOps engineer', org: 'YarHIS' },
     { period: '2015 – 2020', role: 'Software developer', org: 'Idea System Processing' },
   ],
+  education: {
+    degree: "Bachelor's degree in Computer Engineering",
+    school: 'Islamic Azad University',
+    year: '2025',
+  },
   links: [
     { label: 'github', href: 'https://github.com/Babakkamali' },
     { label: 'linkedin', href: 'https://www.linkedin.com/in/babakkamali' },

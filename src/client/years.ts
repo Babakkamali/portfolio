@@ -1,5 +1,5 @@
-import { site } from '../content/site';
-import { yearsSince } from '../lib/years';
+import { site } from '../content/site.ts';
+import { yearsSince } from '../lib/years.ts';
 
 /** The page is rendered at build time; refresh the year count in case the build is older than today. */
 export function updateYears(now = new Date()): void {
