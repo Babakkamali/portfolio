@@ -11,6 +11,8 @@ export interface WindowOptions {
   className?: string;
   /** Trusted markup. */
   body: string;
+  /** Trusted markup shown under the body, edge to edge. */
+  footer?: string;
 }
 
 export function renderWindow(o: WindowOptions): string {
@@ -21,6 +23,6 @@ export function renderWindow(o: WindowOptions): string {
   const tag = o.pre ? 'pre' : 'div';
   return `<section class="${classes}" aria-label="${esc(o.title)}">
   <header class="tb"><span>${esc(o.title)}</span>${aside}</header>
-  <${tag} class="bd">${o.body}</${tag}>
+  <${tag} class="bd">${o.body}</${tag}>${o.footer ?? ''}
 </section>`;
 }

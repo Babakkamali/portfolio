@@ -1,5 +1,6 @@
 import type { LogLine, Site } from '../content/site';
 import { yearsSince } from '../lib/years';
+import { contactSection } from './contact';
 import { esc } from './html';
 import { servicesSection } from './servicesMap';
 import { workSection } from './work';
@@ -83,6 +84,7 @@ ${statusBar(site)}
   </div>
   ${servicesSection(site)}
   ${workSection(site, now)}
+  ${contactSection(site)}
 </main>
 </div>`;
 }

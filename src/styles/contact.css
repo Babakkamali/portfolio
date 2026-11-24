@@ -1,0 +1,121 @@
+.mail .bd {
+  padding: 16px 16px 14px;
+}
+
+.mail-form {
+  display: grid;
+  grid-template-columns: 9ch minmax(0, 1fr);
+  gap: 10px 12px;
+  align-items: center;
+}
+
+.mail-form .label {
+  color: var(--muted);
+  text-align: right;
+}
+
+.mail-form .to {
+  color: var(--fg);
+}
+
+.mail-form input,
+.mail-form textarea {
+  width: 100%;
+  padding: 7px 11px;
+  font: inherit;
+  color: var(--fg);
+  background: rgba(4, 7, 16, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+
+.mail-form input::placeholder,
+.mail-form textarea::placeholder {
+  color: var(--muted);
+}
+
+.mail-form input:focus,
+.mail-form textarea:focus {
+  border-color: var(--focus);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--focus-glow);
+}
+
+.mail-form textarea {
+  grid-column: 1 / -1;
+  min-height: 140px;
+  resize: vertical;
+}
+
+.send-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.send-row .btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.send-row .note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.send-row .note[data-state='sent'] { color: var(--green); }
+.send-row .note[data-state='error'] { color: var(--orange); }
+
+/* Spam trap: hidden from people, visible to simple bots. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.vim-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--titlebar);
+  border-top: 1px solid var(--line);
+}
+
+.vim-line a {
+  color: var(--fg-2);
+  text-decoration: none;
+}
+
+.vim-line a:hover {
+  color: var(--fg);
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .mail-form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .mail-form .label {
+    text-align: left;
+    margin-top: 4px;
+  }
+}
