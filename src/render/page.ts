@@ -2,6 +2,7 @@ import type { LogLine, Site } from '../content/site';
 import { yearsSince } from '../lib/years';
 import { esc } from './html';
 import { servicesSection } from './servicesMap';
+import { workSection } from './work';
 import { renderWindow } from './window';
 
 function years(site: Site, now: Date): string {
@@ -81,6 +82,7 @@ ${statusBar(site)}
     </div>
   </div>
   ${servicesSection(site)}
+  ${workSection(site, now)}
 </main>
 </div>`;
 }

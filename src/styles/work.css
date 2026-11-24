@@ -1,0 +1,114 @@
+.stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.s-green { --s: var(--green); }
+.s-cyan { --s: var(--cyan); }
+.s-yellow { --s: var(--yellow); }
+.s-purple { --s: var(--purple); }
+
+.stat .bd {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 14px 10px;
+}
+
+.stat .num {
+  color: var(--s);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.stat .note {
+  margin: 4px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 26px;
+  margin-top: auto;
+}
+
+.spark .line { fill: none; stroke: var(--s); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.spark .area { fill: var(--s); fill-opacity: 0.14; }
+.spark .bars { fill: var(--s); fill-opacity: 0.75; }
+.spark .faded { fill-opacity: 0.3; }
+
+.split-wide {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+}
+
+.gitlog ol,
+.history ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gitlog li {
+  display: grid;
+  grid-template-columns: 7ch minmax(0, 1fr);
+  gap: 14px;
+  padding: 4px 0;
+  color: var(--fg-2);
+}
+
+.gitlog .hash {
+  color: var(--yellow);
+}
+
+.history li {
+  display: grid;
+  grid-template-columns: 2ch 11ch minmax(0, 1fr);
+  gap: 12px;
+  padding: 5px 0;
+}
+
+.history .n,
+.history .when {
+  color: var(--muted);
+}
+
+.history .what {
+  color: var(--fg);
+}
+
+.history .org {
+  color: var(--blue);
+}
+
+@media (max-width: 960px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .split-wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .stat .num {
+    font-size: 22px;
+  }
+
+  .gitlog li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 6px 0;
+  }
+
+  .history li {
+    grid-template-columns: 11ch minmax(0, 1fr);
+  }
+
+  .history .n {
+    display: none;
+  }
+}

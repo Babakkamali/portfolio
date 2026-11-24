@@ -3,6 +3,7 @@ import './styles/tokens.css';
 import './styles/base.css';
 import './styles/desktop.css';
 import './styles/services.css';
+import './styles/work.css';
 
 import { startClock } from './client/clock';
 import { startServicesMap } from './client/servicesMap';
