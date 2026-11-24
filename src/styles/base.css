@@ -1,0 +1,55 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--wall);
+  scroll-behavior: smooth;
+  scroll-padding-top: 64px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--fg);
+  font: 14px/1.6 var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Wallpaper: soft light behind the windows. A fixed layer instead of background-attachment so it also stays put on phones. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60vw 42vw at 6% 0%, rgba(79, 110, 247, 0.4), transparent 70%),
+    radial-gradient(50vw 40vw at 100% 22%, rgba(34, 211, 238, 0.18), transparent 70%),
+    radial-gradient(60vw 46vw at 0% 72%, rgba(168, 85, 247, 0.2), transparent 70%),
+    radial-gradient(55vw 42vw at 100% 100%, rgba(79, 110, 247, 0.26), transparent 70%),
+    var(--wall);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.c-green { color: var(--green); }
+.c-cyan { color: var(--cyan); }
+.c-blue { color: var(--blue); }
+.c-yellow { color: var(--yellow); }
+.c-purple { color: var(--purple); }
+.c-mut { color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
