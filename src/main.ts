@@ -1,5 +1,3 @@
-const app = document.querySelector<HTMLDivElement>('#app');
+import { updateYears } from './client/years';
 
-if (app) {
-  app.textContent = 'babak@cloud:~$';
-}
+updateYears();
