@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+    tags: ['v*']
 
 permissions:
   contents: read
@@ -63,8 +64,15 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
+      security-events: write
+    env:
+      PUBLISH: ${{ github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+        with:
+          platforms: arm64
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - id: meta
@@ -72,50 +80,90 @@ jobs:
         with:
           images: ${{ env.IMAGE }}
           tags: |
-            type=sha,format=long
+            type=sha
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: build
+      - name: build for testing
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
           load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: portfolio:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: smoke test the container
-        env:
-          REF: ${{ env.IMAGE }}:sha-${{ github.sha }}
         run: |
-          docker run -d --name site -p 8080:8080 "$REF"
+          docker run -d --name site -p 8080:8080 portfolio:ci
           for i in $(seq 1 20); do curl -fsS http://localhost:8080/healthz && break; sleep 1; done
           curl -fsS http://localhost:8080/ | grep -q 'Babak Kamali'
-          test "$(docker inspect --format '{{.State.Health.Status}}' site)" != unhealthy
+          test "$(docker inspect --format '{{.Config.User}}' portfolio:ci)" = 101
           docker rm -f site
 
-      - name: scan for vulnerabilities
+      - name: fail on fixable high or critical vulnerabilities
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          image-ref: ${{ env.IMAGE }}:sha-${{ github.sha }}
+          image-ref: portfolio:ci
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           exit-code: '1'
 
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: write the scan for the security tab
+        if: always() && github.event.pull_request.head.repo.fork != true
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: portfolio:ci
+          format: sarif
+          output: trivy.sarif
+          exit-code: '0'
+      - if: always() && github.event.pull_request.head.repo.fork != true
+        uses: github/codeql-action/upload-sarif@1bd86f2fdb4b86187fa4059f16f31a3202acc9ea # v4.39.4
+        with:
+          sarif_file: trivy.sarif
+          category: container-image
+
+      - if: env.PUBLISH == 'true'
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        name: push
+      - id: push
+        name: build amd64 and arm64, push on main and tags
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
-          push: true
+          platforms: linux/amd64,linux/arm64
+          push: ${{ env.PUBLISH == 'true' }}
+          provenance: mode=max
+          sbom: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
           cache-from: type=gha
+
+      - if: env.PUBLISH == 'true'
+        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
+
+      - if: env.PUBLISH == 'true'
+        name: sign the image
+        env:
+          DIGEST: ${{ steps.push.outputs.digest }}
+        run: cosign sign --yes "${IMAGE}@${DIGEST}"
+
+      - if: env.PUBLISH == 'true'
+        name: summary
+        env:
+          DIGEST: ${{ steps.push.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          {
+            echo "### Image"
+            echo '```'
+            echo "$TAGS"
+            echo "digest: $DIGEST"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
