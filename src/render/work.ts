@@ -1,7 +1,7 @@
-import type { Job, Site, Stat } from '../content/site';
-import { yearsSince } from '../lib/years';
-import { esc } from './html';
-import { renderWindow } from './window';
+import type { Job, Site, Stat } from '../content/site.ts';
+import { yearsSince } from '../lib/years.ts';
+import { esc } from './html.ts';
+import { renderWindow } from './window.ts';
 
 const STAT_COLOURS = ['green', 'cyan', 'yellow', 'purple'];
 

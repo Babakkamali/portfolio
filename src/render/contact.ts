@@ -1,6 +1,6 @@
-import type { Site } from '../content/site';
-import { esc } from './html';
-import { renderWindow } from './window';
+import type { Site } from '../content/site.ts';
+import { esc } from './html.ts';
+import { renderWindow } from './window.ts';
 
 export const CONTACT_ENDPOINT = '/api/contact';
 

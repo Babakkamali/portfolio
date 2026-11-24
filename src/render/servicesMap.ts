@@ -1,7 +1,7 @@
-import type { Service, Site } from '../content/site';
-import type { PodState } from '../lib/pipeline';
-import { esc } from './html';
-import { renderWindow } from './window';
+import type { Service, Site } from '../content/site.ts';
+import type { PodState } from '../lib/pipeline.ts';
+import { esc } from './html.ts';
+import { renderWindow } from './window.ts';
 
 const DEFAULT_SERVICE = 'kubernetes';
 

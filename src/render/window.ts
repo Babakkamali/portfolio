@@ -1,4 +1,4 @@
-import { esc } from './html';
+import { esc } from './html.ts';
 
 export interface WindowOptions {
   title: string;

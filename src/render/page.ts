@@ -1,11 +1,11 @@
-import type { Site } from '../content/site';
-import { yearsSince } from '../lib/years';
-import { contactSection } from './contact';
-import { logLine } from './deployLog';
-import { esc } from './html';
-import { servicesSection } from './servicesMap';
-import { workSection } from './work';
-import { renderWindow } from './window';
+import type { Site } from '../content/site.ts';
+import { yearsSince } from '../lib/years.ts';
+import { contactSection } from './contact.ts';
+import { logLine } from './deployLog.ts';
+import { esc } from './html.ts';
+import { servicesSection } from './servicesMap.ts';
+import { workSection } from './work.ts';
+import { renderWindow } from './window.ts';
 
 function years(site: Site, now: Date): string {
   return `<span data-years>${yearsSince(site.careerStart, now)}</span>`;
