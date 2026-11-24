@@ -34,6 +34,11 @@ export interface Job {
   org: string;
 }
 
+export interface Link {
+  label: string;
+  href: string;
+}
+
 export interface Site {
   name: string;
   role: string;
@@ -52,6 +57,7 @@ export interface Site {
   /** Newest first. Shown as a git log. */
   work: string[];
   experience: Job[];
+  links: Link[];
 }
 
 export const site: Site = {
@@ -143,5 +149,9 @@ export const site: Site = {
     { period: '2023 – 2024', role: 'DevOps engineer', org: 'Mihan Insurance' },
     { period: '2020 – 2023', role: 'System administrator / DevOps engineer', org: 'YarHIS' },
     { period: '2015 – 2020', role: 'Software developer', org: 'Idea System Processing' },
+  ],
+  links: [
+    { label: 'github', href: 'https://github.com/Babakkamali' },
+    { label: 'linkedin', href: 'https://www.linkedin.com/in/babakkamali' },
   ],
 };
