@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
-FROM node:22.22.1-alpine AS build
+# The build output is the same on every platform, so it is built once on the runner's own platform.
+FROM --platform=$BUILDPLATFORM node:22.22.1-alpine@sha256:8094c002d08262dba12645a3b4a15cd6cd627d30bc782f53229a2ec13ee22a00 AS build
 WORKDIR /app
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
@@ -9,7 +10,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 COPY . .
 RUN npm run build
 
-FROM nginxinc/nginx-unprivileged:1.31.7-alpine AS runtime
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine@sha256:b5047b9b76845eac124358373c6852377c52e4b05834a47647e955dd91cb8f1e AS runtime
 LABEL org.opencontainers.image.source="https://github.com/Babakkamali/portfolio" \
       org.opencontainers.image.description="babakkamali.com served by nginx"
 COPY --link docker/nginx.conf /etc/nginx/conf.d/default.conf
