@@ -1,0 +1,235 @@
+.desk {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 12px 16px 48px;
+}
+
+/* Status bar */
+
+.bar {
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  background: var(--bar);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  font-size: 12.5px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.ws-list {
+  display: flex;
+  gap: 4px;
+}
+
+.ws {
+  padding: 3px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ws:hover {
+  color: var(--fg);
+  background: var(--btn);
+}
+
+.ws.on {
+  background: var(--ws-on);
+  color: var(--ws-on-fg);
+  font-weight: 700;
+}
+
+.sp {
+  flex: 1;
+}
+
+.mod {
+  padding: 3px 9px;
+  white-space: nowrap;
+  color: var(--fg-2);
+}
+
+.mod.ok {
+  color: var(--green);
+}
+
+.mod.term {
+  font: inherit;
+  color: var(--fg);
+  background: var(--btn);
+  border: 1px solid var(--btn-line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mod.term:hover {
+  border-color: var(--focus);
+}
+
+/* Tiled windows */
+
+.tiles {
+  display: grid;
+  gap: var(--gap);
+  margin-top: var(--gap);
+}
+
+.split {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+}
+
+.col {
+  display: grid;
+  gap: var(--gap);
+}
+
+.win {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--win);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.win.focus {
+  border-color: var(--focus);
+  box-shadow:
+    0 0 0 1px var(--focus-glow),
+    0 10px 40px -14px var(--focus-glow);
+}
+
+.tb {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--titlebar);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.win.focus .tb {
+  color: var(--fg-2);
+}
+
+.bd {
+  flex: 1;
+  margin: 0;
+  padding: 16px;
+}
+
+pre.bd {
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.75;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* First window */
+
+.hero h1 {
+  margin: 2px 0 0;
+  font-size: clamp(28px, 4.2vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero .role {
+  margin: 8px 0 14px;
+  color: var(--cyan);
+  font-size: 16px;
+}
+
+.hero .bd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero p {
+  max-width: 56ch;
+  margin: 0 0 18px;
+  color: var(--fg-2);
+}
+
+.acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--fg);
+  text-decoration: none;
+  background: var(--btn);
+  border: 1px solid var(--btn-line);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--focus);
+}
+
+.btn.pri {
+  color: var(--primary-fg);
+  font-weight: 700;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn.pri:hover {
+  filter: brightness(1.08);
+}
+
+/* Smaller screens */
+
+@media (max-width: 820px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .desk {
+    padding: 8px 10px 32px;
+  }
+
+  .bar {
+    top: 6px;
+  }
+
+  .ws {
+    padding: 3px 8px;
+  }
+
+  .ws-label,
+  .term-label,
+  .clock {
+    display: none;
+  }
+
+  .bd {
+    padding: 14px;
+  }
+
+  pre.bd {
+    font-size: 12px;
+  }
+}
