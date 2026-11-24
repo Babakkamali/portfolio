@@ -1,6 +1,7 @@
-import type { LogLine, Site } from '../content/site';
+import type { Site } from '../content/site';
 import { yearsSince } from '../lib/years';
 import { contactSection } from './contact';
+import { logLine } from './deployLog';
 import { esc } from './html';
 import { servicesSection } from './servicesMap';
 import { workSection } from './work';
@@ -21,6 +22,7 @@ function statusBar(site: Site): string {
   <nav class="ws-list" aria-label="Sections">${spaces}</nav>
   <span class="sp"></span>
   <span class="mod ok">● ${esc(site.availability)}</span>
+  <span class="mod net" data-net aria-hidden="true">⇅ –</span>
   <time class="mod clock" data-clock></time>
   <button class="mod term" type="button" data-terminal-open aria-label="Open the terminal">&gt;_<span class="term-label"> terminal</span></button>
 </header>`;
@@ -56,18 +58,13 @@ function serviceStatus(site: Site): string {
   });
 }
 
-function logLine(line: LogLine): string {
-  const mark = line.status === 'ok' ? '<span class="c-green">✓</span>' : '<span class="c-yellow">●</span>';
-  return `<span class="c-mut">${esc(line.time)}</span> ${esc(line.stage.padEnd(8))} ${mark} ${esc(line.detail)}`;
-}
-
 function deployLog(site: Site): string {
   return renderWindow({
     title: 'tail -f deploy.log',
     aside: 'live',
     asideClass: 'c-green',
     pre: true,
-    body: site.deployLog.map(logLine).join('\n'),
+    body: `<span data-deploy-log>${site.deployLog.map(logLine).join('\n')}</span>`,
   });
 }
 
