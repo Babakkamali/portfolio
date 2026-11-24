@@ -1,15 +1,14 @@
 import type { Service, Site } from '../content/site';
+import type { PodState } from '../lib/pipeline';
 import { esc } from './html';
 import { renderWindow } from './window';
 
 const DEFAULT_SERVICE = 'kubernetes';
 
-type PodState = 'new' | 'updating' | 'old';
-
-/** 12 pods in the middle of a rolling update: 9 on the new version, 1 starting, 2 still old. */
+/** The still picture, also shown without JavaScript: 9 pods on the new version, 1 starting, 2 still old. */
 const PODS: PodState[] = [
-  'new', 'new', 'new', 'new', 'new', 'new',
-  'new', 'new', 'new', 'updating', 'old', 'old',
+  'v0', 'v0', 'v0', 'v0', 'v0', 'v0',
+  'v0', 'v0', 'v0', 'updating', 'old', 'old',
 ];
 
 function link(id: string, label: string, body: string): string {
@@ -28,6 +27,17 @@ function pods(x: number, y: number, cols: number, size: number, gap: number): st
     const py = y + Math.floor(i / cols) * (size + gap);
     return `<rect class="pod pod-${state}" data-pod="${i}" x="${px}" y="${py}" width="${size}" height="${size}" rx="5"/>`;
   }).join('');
+}
+
+/** Small dots moving along the arrows. */
+function packets(paths: string[], okPath?: string): string {
+  const dots = paths
+    .map((d, i) => `<circle class="packet" r="2.5"><animateMotion dur="1.6s" begin="-${(i * 0.5).toFixed(1)}s" repeatCount="indefinite" path="${d}"/></circle>`)
+    .join('');
+  const ok = okPath
+    ? `<circle class="packet ok" r="2.5"><animateMotion dur="2.2s" repeatCount="indefinite" path="${okPath}"/></circle>`
+    : '';
+  return `<g class="packets" aria-hidden="true">${dots}${ok}</g>`;
 }
 
 function markers(suffix: string): string {
@@ -61,6 +71,7 @@ function wideMap(): string {
 
   ${link('observability', 'observability', `<rect class="box" x="470" y="246" width="218" height="56" rx="8"/><text class="map-title" x="484" y="268">observability/</text><text class="map-text" x="484" y="288">metrics, logs, traces, alerts</text>`)}
   <path class="watch" d="M478 204 L520 246 M603 182 L603 246"/>
+  ${packets(['M76 130 L106 130', 'M242 130 L262 130', 'M504 130 L526 130'], 'M386 246 L386 210')}
 </svg>`;
 }
 
@@ -85,6 +96,7 @@ function tallMap(): string {
 
   ${link('ci-cd', 'ci-cd', `<rect class="box" x="8" y="542" width="158" height="90" rx="8"/><text class="map-title" x="20" y="564">ci-cd/</text>${lines(20, 586, 18, ['push → build →', 'test → deploy'])}`)}
   ${link('observability', 'observability', `<rect class="box" x="174" y="542" width="158" height="90" rx="8"/><text class="map-title" x="186" y="564">observability/</text>${lines(186, 586, 18, ['metrics · logs', 'traces · alerts'])}`)}
+  ${packets(['M270 42 L270 90', 'M170 174 L170 192', 'M170 350 L170 368'])}
 </svg>`;
 }
 

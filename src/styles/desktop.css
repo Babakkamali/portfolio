@@ -60,6 +60,18 @@
   color: var(--green);
 }
 
+.mod.net {
+  min-width: 13ch;
+  color: var(--muted);
+  text-align: right;
+}
+
+@media (max-width: 820px) {
+  .mod.net {
+    display: none;
+  }
+}
+
 .mod.term {
   font: inherit;
   color: var(--fg);
@@ -221,7 +233,8 @@ pre.bd {
 
   .ws-label,
   .term-label,
-  .clock {
+  .clock,
+  .net {
     display: none;
   }
 

@@ -95,9 +95,22 @@
   text-decoration: underline;
 }
 
-.pod-new { fill: var(--blue); fill-opacity: 0.85; }
+.pod {
+  transition: fill 0.3s, fill-opacity 0.3s, stroke 0.3s;
+}
+
+.pod-v0 { fill: var(--blue); fill-opacity: 0.85; }
+.pod-v1 { fill: var(--teal); fill-opacity: 0.85; }
 .pod-updating { fill: var(--yellow); fill-opacity: 0.85; }
 .pod-old { fill: none; stroke: var(--muted); }
+
+.packet { fill: var(--cyan); }
+.packet.ok { fill: var(--green); }
+
+@media (prefers-reduced-motion: reduce) {
+  .packets { display: none; }
+  .pod { transition: none; }
+}
 
 /* Description panel under the map */
 
